@@ -9,13 +9,13 @@
             }
         },
         methods: {
-            async fetchlogin(){
-             let httpClient = await this.$axios.get('http://localhost:8055/items/login')
+            async fetchDesignations(){
+             let httpClient = await this.$axios.get('http://localhost:8055/items/designations')
              this.rows = httpClient.data.data
             }
         },
         created(){
-            this.fetchlogin()
+            this.fetchDesignations()
         }
     }
     

@@ -1,27 +1,32 @@
 <template>
-    <q-page class="q-pa-md bg-grey-2">
-        <div class="row items-cente q-my-md">
-            <div class="text-h5">login form</div>
-            <div><q-btn label="Add" to="/add" color="green" rounded></q-btn></div>
-        </div>
-        <div class="row q-gutter-md q-my-md">
-            <q-card v-if="mode" class="q-pa-md" style="width:360px">
-          <router-view/> 
-        </q-card>
-
-        <LoginTable class="col"/>
-        </div>
+    <q-page class="q-pa-md bg-grey-7">
+        <div class="column items-center q-my-md">
+            <div class="text-h5 text-bold text-grey-1">Log In</div>
+            
+            <q-card class="q-pa-md q-mt-md" style="width:380px">
+                
+        <div class="row q-pa-sm">
+            <div class="coloumn col" style="margin-right: 20px;" >
+                <label for="email">Email Id</label>
+                <q-input outlined v-model="text" Placeholder="e.g.riti123@gmail.com"/></div>
+        </div>  
+        <div class="row q-pa-sm">
+            <div class="coloumn col" style="margin-right: 20px;" >
+                <label for="password">Password</label>
+                <q-input outlined v-model="text" Placeholder="e.g.23@3$"/></div>
+        </div>  
+        <div><q-btn label="Log In" color="blue" rounded></q-btn></div> 
+         
     
-        
+        </q-card>
+    </div>
+           
     </q-page>
     </template>
     <script>
     
-    import loginTable from 'components/modules/login/table.vue'
-  
+    
      export default {
-        props: ['mode'],
-        components: {loginTable,}
      }
   
     </script>

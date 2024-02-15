@@ -1,6 +1,7 @@
 <template>
     <q-page>
-    attendence
+
+        Generated Report Table only no form
     </q-page>
     </template>
     <script>

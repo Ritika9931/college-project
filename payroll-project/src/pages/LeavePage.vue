@@ -1,36 +1,27 @@
 <template>
     
-        <q-page class="q-pa-md bg-grey-2">
-        <div class="row items-center q-my-md">
-            <div class="text-h5">leave Details</div>
-  
-        <div class="row q-pa-sm">
-            <div class="col-12 col-md-3 q-ma-sm" >
-                <label for="id">employee_id</label>
-                
-            </div>
-         
-            <div class="col-12 col-md-3 q-ma-sm" >
-                <label for="current">current status</label>
-                <q-input outlined v-model="text"/>
-            </div>
-            
-        </div>
-        <div class="row q-pa-sm">
-            <div class="col-12 col-md-3 q-ma-sm" >
-                <label for="department">department_id</label>
-                <q-input outlined v-model="text"/>
-            </div>
-         
-        </div>
-  
-     
-</div>
-
-    </q-page>
-    </template>
-    <script>
-    export default {
+    <q-page class="q-pa-md bg-grey-2">
+   
+   
+    <div><q-btn label="Add" to="./add" color="green" rounded></q-btn></div>
+    <div class="row q-gutter-md q-my-md">
+        <q-card v-if="mode" class="q-pa-md" style="width:360px">
+      <router-view/> 
+    </q-card>
     
-    }
-    </script>
+    <LeaveTable class="col"/>
+    </div>
+
+ 
+
+</q-page>
+</template>
+
+<script>
+import LeaveTable from 'components/modules/leaves/table.vue'
+export default {
+props: ['mode'],
+    components: {LeaveTable,}
+
+}
+</script>
