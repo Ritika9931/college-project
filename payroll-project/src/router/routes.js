@@ -45,7 +45,13 @@ const routes = [
           { path: '', component: () => import('components/modules/leaves/form.vue'), props:true}
         ]
       },
-      { path: 'leavetype', component: () => import('pages/LeaveTypePage.vue') },
+      { path: 'leavetype/:mode?',
+       component: () => import('pages/LeaveTypePage.vue'),
+       props:true,
+       children:[
+        { path:  '', component: () => import('components/modules/leavetypes/form.vue'), props:true}
+       ]
+       },
       { path: 'attendence', component: () => import('pages/attendencePage.vue') },
       
 
