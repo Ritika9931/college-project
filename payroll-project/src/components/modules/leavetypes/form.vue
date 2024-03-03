@@ -1,9 +1,7 @@
 <template>
-    <q-form class="q-pa-md ">
-        <div class="column items-center q-my-md">
-            <div class="text-h6  text-black-3"> New leave</div>
-            
-            <q-card class="q-pa-md q-mt-md" style="width:380px">
+    <q-form>
+        <div class="column">
+            <div class="text-h6  text-black-3"> New leave</div> 
                 
         <div class="row q-pa-sm">
             <div class="coloumn col" style="margin-right: 20px;" >
@@ -37,17 +35,11 @@
         </div>
         <q-btn color="primary" label="APPLY" />
         
-        <div class="row q-pa-sm">
-            <div class="coloumn col" style="margin-right: 20px;" >
-                <label for="status"> Status</label>
-            </div>
-                <q-select outlined :option="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"></q-select>
-                  
-        </div>
+       <div>
         <q-btn class="q-my-lg" label="Submit" color="primary"/>
         <q-btn class="q-my-lg" label="Cancel" color="negative" @click="$router.go(-1)"/> 
-        
-        </q-card>
+    </div>
+       
     </div>
            
     </q-form>
