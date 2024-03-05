@@ -1,8 +1,8 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header elevated class="bg-red">
       <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer"/>
 
         <q-toolbar-title>
           Attendance & Payroll
@@ -11,8 +11,8 @@
 
       </q-toolbar>
     </q-header>
-
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+   
+    <q-drawer class="bg-blue" v-model="leftDrawerOpen" show-if-above bordered >
       <q-list>
 
 
@@ -24,6 +24,8 @@
       <router-view />
     </q-page-container>
   </q-layout>
+
+
 </template>
 
 <script>
@@ -38,6 +40,7 @@ export default {
     return {
       menu,
       leftDrawerOpen: false
+      
     }
   },
   methods: {
@@ -52,3 +55,4 @@ export default {
 
 }
 </script>
+

@@ -1,4 +1,5 @@
 <template>
+ 
   <q-item clickable :to="url">
     <q-item-section v-if="icon" avatar>
       <q-icon :name="icon" />

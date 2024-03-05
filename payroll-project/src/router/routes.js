@@ -1,12 +1,24 @@
 
 const routes = [
+  
   {
-    path: "/",
-    component: () => import('layouts/BlankLayout.vue'),
+    path: '/',
+    component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: 'login', component: () => import('pages/LoginPage.vue') }
+      { path: '', component: () => import('pages/IndexPage.vue')},
+        
+      {
+        path: 'login', component: () => import('pages/LoginPage.vue'),
+      children: [
+        {path: '', component: () => import('components/auth/login.vue')
+        },
+      ]
+      },
     ]
+    
   },
+  
+  
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
@@ -52,6 +64,7 @@ const routes = [
         { path:  '', component: () => import('components/modules/leavetypes/form.vue'), props:true}
        ]
        },
+    
       { path: 'attendence', component: () => import('pages/attendencePage.vue') },
       
 
