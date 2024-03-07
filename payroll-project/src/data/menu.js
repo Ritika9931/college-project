@@ -3,7 +3,8 @@ let menu = [
     { label: 'Designations', url: '/designation/', icon: 'person' },
     { label: 'Departments', url: '/department/', icon:'person'},
     { label: 'Leaves', url:'/leave', icon:'person'},
-    { label: 'Leavetypes', url:'/leavetype', icon:'people'}
+    { label: 'Leavetypes', url:'/leavetype', icon:'people'},
+    { label: 'LogIn', url:'/login', icon:'people'}
 ]
 
 export default menu

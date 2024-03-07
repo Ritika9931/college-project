@@ -1,9 +1,9 @@
 <template>
-    <q-page class="q-pa-md bg-grey-7">
-        this is page
+    <q-page class="q-pa-md bg-white-7">
+        <RouterView/> 
     </q-page>
     
-    <RouterView/>
+ 
 </template>
 <script>
 export default {

@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="bg-red">
+    <q-header elevated class="bg-blue">
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer"/>
 
@@ -12,7 +12,7 @@
       </q-toolbar>
     </q-header>
    
-    <q-drawer class="bg-blue" v-model="leftDrawerOpen" show-if-above bordered >
+    <q-drawer class="bg-green-2" v-model="leftDrawerOpen" show-if-above bordered :width="200" >
       <q-list>
 
 
