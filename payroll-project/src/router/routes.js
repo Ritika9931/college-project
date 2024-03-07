@@ -65,7 +65,10 @@ const routes = [
        ]
        },
     
-      { path: 'attendence', component: () => import('pages/attendencePage.vue') },
+      { path: 'attendance', component: () => import('pages/AttendancePage.vue') },
+
+      { path: 'dashboard', component: () => import('pages/DashboardPage.vue') },
+      { path: 'salary', component: () => import('pages/SalaryPage.vue') },
       
 
 
