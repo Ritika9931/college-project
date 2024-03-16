@@ -1,10 +1,11 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh Lpr lff">
     <q-header elevated class="bg-blue">
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer"/>
-
+  
         <q-toolbar-title>
+        
           Attendance & Payroll
         </q-toolbar-title>
 
@@ -15,8 +16,6 @@
     <q-drawer class="bg-green-2" v-model="leftDrawerOpen" show-if-above bordered :width="200" >
       
       <q-list>
-
-
         <Menu v-for="item in menu" :key="item.label" v-bind="item" />
       </q-list>
     </q-drawer>
@@ -56,4 +55,5 @@ export default {
 
 }
 </script>
+
 
