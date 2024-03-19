@@ -2,7 +2,7 @@
 
   <div class="column items-center">
     
- <q-form class="q-pa-md q-mt-md bg-white" style="width:400px">
+ <q-form class="q-pa-md q-mt-md bg-indigo-2" style="width:400px">
       <q-card class="q-pa-md shadow-2 my_card" bordered>
         <div>
       
@@ -60,7 +60,7 @@ export default {
       this.$api.defaults.headers.common['Authorization'] = 'Bearer ' + access_token;
       localStorage.setItem('access_token', access_token)
 
-      this.$mitt.emit('login-successfull')
+      this.$mitt.emit('login-successful')
       setTimeout(() => {
         this.$router.replace('/')
       }, 1000)

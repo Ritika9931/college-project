@@ -5,7 +5,6 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue')},
         
       {
         path: 'login', component: () => import('pages/LoginPage.vue'),
@@ -17,6 +16,17 @@ const routes = [
     ]
     
   },
+  // {
+  //   path:'login',component:()=>import('layouts/HomeLayout.vue'),
+  //   children: [
+  //     { path: '', component: ()=> import('pages/LoginPage.vue'),
+  //       children:[
+  //         {path: '',component: ()=>('components/auth/login.vue'),}
+  //       ]
+  //   }
+  //   ]
+  // },
+  
   
   
   {
@@ -64,11 +74,10 @@ const routes = [
         { path:  '', component: () => import('components/modules/leavetypes/form.vue'), props:true}
        ]
        },
-    
-      { path: 'attendance', component: () => import('pages/AttendancePage.vue') },
-
-      { path: 'dashboard', component: () => import('pages/DashboardPage.vue') },
+  
       { path: 'salary', component: () => import('pages/SalaryPage.vue') },
+      
+      { path: 'attendence', component: () => import('pages/AttendencePage.vue') },
       
 
 

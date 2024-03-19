@@ -1,5 +1,6 @@
 <template>
-    <q-page class="q-pa-md bg-white-7">
+    <q-page class="q-pa-md bg-grey-2">
+        this is login page
         <RouterView/> 
     </q-page>
     

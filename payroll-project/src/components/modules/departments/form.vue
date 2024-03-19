@@ -13,7 +13,7 @@
 <script>
 import { useQuasar } from 'quasar'
 export default {
-    name: 'DesignationForm',
+    name: 'DepartmentForm',
     data() {
         return {
             formData: {}
