@@ -11,47 +11,47 @@
 
             <div class="col-12 col-md-3 q-ma-sm">
                 <label for="Name">MiddleName</label>
-                <q-input outlined v-model="text" />
-            </div>
-
-            <div class="col-12 col-md-3 q-ma-sm">
-                <label for="Name">MiddleName</label>
-                <q-input outlined v-model="text" />
+                <q-input outlined v-model="formData.Middle_name"/>
             </div>
 
             <div class="col-12 col-md-3 q-ma-sm">
                 <label for="Name">LastName</label>
-                <q-input outlined v-model="text" />
+                <q-input outlined v-model="formData.last_Name" />
             </div>
+            
+            <div class="col-12 col-md-3 q-ma-sm">
+                <label for="gender">Gender</label>
+                <q-input outlined v-model="formData.Gender" />
+            </div>
+
             <div class="col-12 col-md-3 q-ma-sm">
                 <label for="number">Contact</label>
-                <q-input outlined v-model="text" />
+                <q-input outlined v-model="formData.contact" />
             </div>
 
             <div class="col-12 col-md-3 q-ma-sm">
                 <label for="email">Email</label>
-                <q-input outlined v-model="text" />
+                <q-input outlined v-model="formData.email" />
             </div>
         </div>
 
         <div class="col-12 col-md-3 q-ma-sm">
             <label for="state">State</label>
-            <q-input outlined v-model="text" />
+            <q-input outlined v-model="formData.state" />
         </div>
 
         <div class="col-12 col-md-3 q-ma-sm">
             <label for="PAN">PAN Number</label>
-            <q-input outlined v-model="text" />
+            <q-input outlined v-model="formData.pan_number" />
         </div>
           <div class="col-12 col-md-3 q-ma-sm">
                 <label for="Adhar">Adhar Number</label>
-                <q-input outlined v-model="text" />
+                <q-input outlined v-model="formData.adhar_number" />
             </div>
-            <div class="col-12 col-md-3 q-ma-sm">
-                <label for="Adhar">Status</label>
-        <q-select emit-value :option="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"
-        v-model="formData.status"></q-select>
-</div>
+         
+            <q-select emit-value :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"
+            v-model="formData.status"></q-select>
+
         <q-btn class="q-my-lg" label="Submit" color="primary" @click="submit" />
         <q-btn class="q-my-lg" label="Cancel" color="negative" @click="$router.go(-1)" />
     </q-form>

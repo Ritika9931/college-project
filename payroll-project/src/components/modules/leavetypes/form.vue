@@ -6,17 +6,17 @@
         <div class="row q-pa-sm">
             <div class="coloumn col" style="margin-right: 20px;" >
                 <label for="type">Type</label>
-                <q-input outlined v-model="text"/></div>
+                <q-input outlined v-model="formData.type"/></div>
         </div> 
         <div class="row q-pa-sm">
             <div class="coloumn col" style="margin-right: 20px;" >
                 <label for="cause">Cause</label>
-                <q-input outlined v-model="text"/></div>
+                <q-input outlined v-model="formData.cause"/></div>
         </div> 
         <div class="row q-pa-sm">
             <div class="coloumn col" style="margin-right: 20px;" >
                 <label for="from">From</label>
-                <q-input outlined v-model="text" /></div>
+                <q-input outlined v-model="formData.from" /></div>
             </div> 
             <div class="q-pa-md">
     <div class="q-pb-sm">
@@ -30,22 +30,49 @@
         <div class="row q-pa-sm">
             <div class="coloumn col" style="margin-right: 20px;" >
                 <label for="to">To</label>
-                <q-input outlined v-model="text" /></div>
+                <q-input outlined v-model="formData.to" /></div>
                   
         </div>
-        <q-btn color="primary" label="APPLY" />
+    </div>
+    <q-select emit-value :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"
+            v-model="formData.status"></q-select>
         
-       <div>
         <q-btn class="q-my-lg" label="Submit" color="primary"/>
         <q-btn class="q-my-lg" label="Cancel" color="negative" @click="$router.go(-1)"/> 
-    </div>
+    
        
-    </div>
+  
            
     </q-form>
    </template>
-     <script>
-     export default {
-     
+ <script>
+ import { useQuasar } from 'quasar';
+ export default {
+     name:"New leave",
+     data() {
+         return{
+         formData: {}
      }
-     </script>
+ },
+ 
+ methods:{
+     async submit() {
+         let httpClient = await this.$axios.post('http://localhost:8055/items/leave_types', this.formData)
+             
+             this.$q.dialog({
+                 title: 'Successfull',
+                 message: 'Data Submitted'
+             }).onOk(() => {
+                 this.$router.go(-1)
+             }).onCancel(() => {
+                 // console.log('Cancel')
+             }).onDismiss(() => {
+                 this.$router.go(-1)
+             })
+ 
+     }
+ }
+ 
+ 
+ }
+ </script>

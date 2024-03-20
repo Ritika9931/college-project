@@ -25,7 +25,9 @@
                 <q-input outlined v-model="text" /></div>
             </div> 
 
-      <div>  
+      <div>
+        
+          
         <q-btn class="q-my-sm" label="Submit" color="primary"/>
         <q-btn class="q-my-sm" label="Cancel" color="negative" @click="$router.go(-1)"/> 
     </div>
