@@ -1,22 +1,22 @@
 <template>
-<q-table :rows="rows"></q-table>
+  <q-table :rows="rows"></q-table>
 </template>
 <script>
 export default {
-    data(){
-        return {
-            rows: [],
-        }
-    },
-    methods: {
-        async fetchDepartments(){
-         let httpClient = await this.$axios.get('http://localhost:8055/items/departments')
-         this.rows = httpClient.data.data
-        }
-    },
-    created(){
-        this.fetchDepartments()
+  data () {
+    return {
+      rows: [],
     }
+  },
+  methods: {
+    async fetchDepartments () {
+      let httpClient = await this.$api.get('http://localhost:8055/items/departments')
+      this.rows = httpClient.data.data
+    }
+  },
+  created () {
+    this.fetchDepartments()
+  }
 }
 
 </script>

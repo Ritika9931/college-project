@@ -1,26 +1,26 @@
 <template>
 
   <div class="column items-center">
-    
- <q-form class="q-pa-md q-mt-md bg-indigo-2" style="width:400px">
-      <q-card class="q-pa-md shadow-2 my_card" bordered>
-        <div>
-      
-      <h4 class="text-center text-weight-bold text-black">LOGIN</h4>
-      <q-input outlined label="Email" v-model="auth.email" />
-      <q-input outlined label="Password" v-model="auth.password" />
-      
-      </div>
-      
-      <div class="full-width q-my-md column q-gutter-sm">
-        <q-checkbox v-model="check" label="Remember Me"></q-checkbox>
-        <div class="">
-      <q-btn :label=" authSucess? 'Success':'LOGIN'"  class="full-width"
-      :color="authSucess?'green':'primary'" @click="login" :disabled="authInProgress||authSuccess"
-      :loading="authInProgress"></q-btn>
-    </div>
-    </div>
-    </q-card>
+
+    <q-form class="q-pa-md q-mt-md bg-indigo-2" style="width:400px">
+      <q-card class="q-pa-md shadow-2" bordered>
+        <div class="q-gutter-sm">
+
+          <h4 class="text-center text-weight-bold text-black">LOGIN</h4>
+          <q-input outlined label="Email" v-model="auth.email" />
+          <q-input outlined label="Password" v-model="auth.password" />
+
+        </div>
+
+        <div class="full-width q-my-md column q-gutter-sm">
+          <q-checkbox v-model="check" label="Remember Me"></q-checkbox>
+          <div class="">
+            <q-btn :label="authSucess ? 'Success' : 'LOGIN'" class="full-width"
+              :color="authSucess ? 'green' : 'primary'" @click="login" :disabled="authInProgress || authSuccess"
+              :loading="authInProgress"></q-btn>
+          </div>
+        </div>
+      </q-card>
     </q-form>
 
   </div>
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     async login () {
-      this.$axios.defaults.headers.common['Authorization'] = null;
+      this.$api.defaults.headers.common['Authorization'] = null;
       this.authInProgress = true
       let httpRequest
       try {
@@ -64,8 +64,8 @@ export default {
       setTimeout(() => {
         this.$router.replace('/')
       }, 1000)
+    }
   }
-}
 }
 
 
