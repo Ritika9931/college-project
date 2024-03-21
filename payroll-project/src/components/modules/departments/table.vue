@@ -1,6 +1,11 @@
 <template>
-  <q-table :rows="rows"></q-table>
+  <q-table :rows="rows">
+  
+    </q-table> 
+   
+
 </template>
+
 <script>
 export default {
   data () {

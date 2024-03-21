@@ -3,46 +3,29 @@
     <div class="column">
       <div class="text-h6">Employee details</div>
 
+      <div class="column q-gutter-sm">
+  
+        <q-input outlined label="First Name" v-model="formData.name" />
+      
+        <q-input outlined label="Middle Name" v-model="formData.Middle_name" />
+      
+        <q-input outlined label="Last Name" v-model="formData.last_Name" />
 
-      <div class="col-12 col-md-3 q-ma-sm">
-        <label for="Name">First Name</label>
-        <q-input outlined v-model="formData.name" />
-      </div>
+        <q-input outlined label="Gender" v-model="formData.Gender" />
+   
+        <q-input outlined label="contact" v-model="formData.contact" />
+     
+        <q-input outlined label="Email" v-model="formData.email" />
 
-      <div class="col-12 col-md-3 q-ma-sm">
-        <label for="Name">MiddleName</label>
-        <q-input outlined v-model="formData.Middle_name" />
-      </div>
+      <q-input outlined label="State" v-model="formData.state" />
 
-      <div class="col-12 col-md-3 q-ma-sm">
-        <label for="Name">LastName</label>
-        <q-input outlined v-model="formData.last_Name" />
-      </div>
-
-      <div class="col-12 col-md-3 q-ma-sm">
-        <label for="gender">Gender</label>
-        <q-input outlined v-model="formData.Gender" />
-      </div>
-
-      <div class="col-12 col-md-3 q-ma-sm">
-        <label for="number">Contact</label>
-        <q-input outlined v-model="formData.contact" />
-      </div>
-
-      <div class="col-12 col-md-3 q-ma-sm">
-        <label for="email">Email</label>
-        <q-input outlined v-model="formData.email" />
-      </div>
-    </div>
-
-    <div class="col-12 col-md-3 q-ma-sm">
-      <label for="state">State</label>
-      <q-input outlined v-model="formData.state" />
-    </div>
-    <div class="col-12 col-md-3 q-ma-sm">
-      <label for="state">Designation</label>
-      <q-select :options="designation.options" option-value="id" use-input
-        :option-label="option => `${option.name} (${option.department_id.name})`" map-options emit-value outlined
+      <q-input outlined label="PAN Number" v-model="formData.pan_number" />
+      <q-input outlined label="Address" v-model="formData.Address" type="textarea"/>
+    
+    <q-input outlined label="Adhar Number" v-model="formData.adhar_number" />
+   
+      <q-select outlined label="Designation" :options="designation.options" option-value="id" use-input
+        :option-label="option => `${option.name} (${option.department_id.name})`" map-options emit-value 
         v-model="formData.designation_id" @filter="filterDesignations">
         <template v-slot:option="props">
           <q-item clickable v-bind="props.itemProps">
@@ -55,19 +38,15 @@
         </template>
 
       </q-select>
+    
     </div>
-    <div class="col-12 col-md-3 q-ma-sm">
-      <label for="PAN">PAN Number</label>
-      <q-input outlined v-model="formData.pan_number" />
-    </div>
-    <div class="col-12 col-md-3 q-ma-sm">
-      <label for="Adhar">Adhar Number</label>
-      <q-input outlined v-model="formData.adhar_number" />
-    </div>
+     
 
-    <q-select emit-value :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"
+  
+    <q-select outlined label="Status" emit-value :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"
       v-model="formData.status"></q-select>
-
+      </div>
+  
     <q-btn class="q-my-lg" label="Submit" color="primary" @click="submit" />
     <q-btn class="q-my-lg" label="Cancel" color="negative" @click="$router.go(-1)" />
   </q-form>
@@ -134,7 +113,7 @@ export default {
 
     },
     async submit () {
-      let httpClient = await this.$api.post('http://localhost:8055/items/employees', this.formData)
+      let httpClient = await this.$api.post('/items/employees', this.formData)
 
       this.$q.dialog({
         title: 'Successfull',

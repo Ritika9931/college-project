@@ -4,38 +4,52 @@
    
             <div class="text-h6  text-black-3"> leave</div> 
                 
-        <div class="row q-pa-sm">
-            <div class="coloumn col" style="margin-right: 20px;" >
-                <label for="employee">Employee Id</label>
-                <q-input outlined v-model="text"/></div>
-        </div> 
-        <div class="row q-pa-sm">
-            <div class="coloumn col" style="margin-right: 20px;" >
-                <label for="Designation">Designation Id</label>
-                <q-input outlined v-model="text"/></div>
-        </div> 
-        <div class="row q-pa-sm">
-            <div class="coloumn col" style="margin-right: 20px;" >
-                <label for="Apply">Apply Date</label>
-                <q-input outlined v-model="text" /></div>
+        <div class="column q-gutter-sm">
+           
+                
+                <q-input outlined label="Employee Id" v-model="formData.employee_id"/>
+       
+                <q-input outlined label="Designation Id" v-model="formData.Designation_Id"/>
+                <q-input outlined label="Apply Date" v-model="formData.apply_data"/>
+                
+                <q-select outlined label="Status" emit-value
+        :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"
+        v-model="formData.status"></q-select>
+              
+                </div>
             </div> 
-            <div class="row q-pa-sm">
-            <div class="coloumn col" style="margin-right: 20px;" >
-                <label for="status">Current Status</label>
-                <q-input outlined v-model="text" /></div>
-            </div> 
-
-      <div>
+        <q-btn class="q-my-sm" label="Submit" color="primary" @click="submit" />
         
-          
-        <q-btn class="q-my-sm" label="Submit" color="primary"/>
         <q-btn class="q-my-sm" label="Cancel" color="negative" @click="$router.go(-1)"/> 
-    </div>
-      </div>     
+  
+          
     </q-form>
    </template>
-    <script>
-    export default {
-    
+  <script>
+  import { useQuasar } from 'quasar'
+  export default {
+    name: 'Leave',
+    data () {
+      return {
+        formData: {}
+      }
+    },
+    methods: {
+      async submit () {
+        let httpClient = await this.$api.post('/items/leaves', this.formData)
+  
+        this.$q.dialog({
+          title: 'Successfull',
+          message: 'Data Submitted'
+        }).onOk(() => {
+          this.$router.go(-1)
+        }).onCancel(() => {
+          // console.log('Cancel')
+        }).onDismiss(() => {
+          this.$router.go(-1)
+        })
+  
+      }
     }
-    </script>
+  }
+  </script>
