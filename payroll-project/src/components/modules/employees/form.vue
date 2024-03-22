@@ -1,11 +1,11 @@
 <template>
-  <q-form>
+  <q-form ref="form" class="q-gutter-md" :class="{'bg-amber' :mode==='edit'}">
     <div class="column">
       <div class="text-h6">Employee details</div>
 
       <div class="column q-gutter-sm">
   
-        <q-input outlined label="First Name" v-model="formData.name" />
+        <q-input outlined label="First Name" v-model="formData.name" :disable="mode==='edit'" />
       
         <q-input outlined label="Middle Name" v-model="formData.Middle_name" />
       
@@ -19,7 +19,8 @@
 
       <q-input outlined label="State" v-model="formData.state" />
 
-      <q-input outlined label="PAN Number" v-model="formData.pan_number" />
+      <q-input outlined label="Date Of Birth" v-model="formData.date_of_birth" type="date" />
+
       <q-input outlined label="Address" v-model="formData.Address" type="textarea"/>
     
     <q-input outlined label="Adhar Number" v-model="formData.adhar_number" />
@@ -43,27 +44,44 @@
      
 
   
-    <q-select outlined label="Status" emit-value :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"
-      v-model="formData.status"></q-select>
+    <q-select outlined label="Status" v-model="formData.status" emit-value 
+    :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"
+    :loading="status.loading" :error-message="status.error"
+      :error="!!status.error"></q-select>
       </div>
-  
-    <q-btn class="q-my-lg" label="Submit" color="primary" @click="submit" />
+      <div ref="div" class="row q-gutter-sm">
+    <q-btn class="q-my-lg" label="Submit" color="primary" @click="submit" :loading="formsubmitting"
+    :disable="formsubmitting" v-if="mode===add" />
+    <q-btn label="Update" color="amber" unelevated @click="updateForm" :loading="formSubmitting"
+        :disable="formSubmitting" v-if="mode === 'edit'"></q-btn>
     <q-btn class="q-my-lg" label="Cancel" color="negative" @click="$router.go(-1)" />
+    </div>
   </q-form>
 </template>
 <script>
 import { useQuasar } from 'quasar';
 export default {
   name: "EmployeeDetails",
+  props: ['mode', 'id'],
   data () {
     return {
+       
       formData: {},
       designation: {
+
         searchText: '',
         option: [],
         loading: false,
         error: false
+        
+      },
+      status: {
+        loading: false,
+        error: false,
+        options: [],
+        loadingAttempt: 0
       }
+
     }
   },
 
