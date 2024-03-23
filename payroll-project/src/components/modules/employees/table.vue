@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     async fetchEmployees () {
-      let httpClient = await this.$api.get('http://localhost:8055/items/employees')
+      let httpClient = await this.$api.get('/items/employees')
       this.rows = httpClient.data.data
     },
     async deleteData (id) {

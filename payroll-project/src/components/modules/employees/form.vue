@@ -50,8 +50,7 @@
       :error="!!status.error"></q-select>
       </div>
       <div ref="div" class="row q-gutter-sm">
-    <q-btn class="q-my-lg" label="Submit" color="primary" @click="submit" :loading="formsubmitting"
-    :disable="formsubmitting" v-if="mode===add" />
+    <q-btn class="q-my-lg" label="Submit" color="primary" @click="submit" />
     <q-btn label="Update" color="amber" unelevated @click="updateForm" :loading="formSubmitting"
         :disable="formSubmitting" v-if="mode === 'edit'"></q-btn>
     <q-btn class="q-my-lg" label="Cancel" color="negative" @click="$router.go(-1)" />
