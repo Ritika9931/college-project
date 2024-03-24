@@ -1,13 +1,13 @@
 <template>
   <q-table :rows="rows" :columns="columns">
- 
- <template v-slot:body-cell-actionControl="props">
-     <q-td>
-       <q-btn icon="edit" :to="'./edit/' + props.row.id" unelevated color="amber" dense></q-btn>
-       <q-btn icon="delete" @click="deleteData(props.row.id)" unelevated color="red" dense></q-btn>
-     </q-td>
 
-   </template>>
+    <template v-slot:body-cell-actionControl="props">
+      <q-td>
+        <q-btn icon="edit" :to="'./edit/' + props.row.id" unelevated color="amber" dense></q-btn>
+        <q-btn icon="delete" @click="deleteData(props.row.id)" unelevated color="red" dense></q-btn>
+      </q-td>
+
+    </template>>
   </q-table>
 </template>
 <script>
@@ -30,7 +30,7 @@ export default {
       let httpClient = await this.$api.get('/items/leave_types')
       this.rows = httpClient.data.data
     },
-    
+
     async deleteData (id) {
       this.$q.dialog({
         title: 'Deleting Data',
@@ -38,14 +38,14 @@ export default {
         cancel: true,
         persistent: true
       }).onOk(async () => {
-        let httpClient = await this.$api.delete('/items/leavetypes/' + id)
-        this.fetchData()
+        let httpClient = await this.$api.delete('/items/leave_types/' + id)
+        this.fetchLeaveTypes()
       })
-    
+
     }
   },
   created () {
-    this.$mitt.on('module-data-changed:leavetypes', this.fetchData)
+    this.$mitt.on('module-data-changed:leavetypes', this.fetchLeaveTypes)
     this.fetchLeaveTypes()
   }
 }
