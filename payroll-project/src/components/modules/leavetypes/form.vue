@@ -8,18 +8,11 @@
       <q-input outlined label="Type" v-model="formData.type" />
       <q-input outlined label="Cause" v-model="formData.cause" />
       <q-input outlined label="From" v-model="formData.from" />
-
-        
-
         <q-date v-model="days" multiple />
-       
- 
-    
       <q-input outlined label="To" v-model="formData.to" />
 
-    <q-select outlined label="Status" v-model="formData.status" emit-value :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]" 
-    
-    ></q-select>
+    <q-select outlined label="Status" emit-value 
+    :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]" v-model="formData.status" ></q-select>
   </div>
   </div>
     <q-btn class="q-my-lg" label="Submit" color="primary"  @click="submit" />
@@ -29,7 +22,7 @@
 <script>
 import { useQuasar } from 'quasar';
 export default {
-  name: "New leave",
+  name: "leave Type",
   data () {
     return {
       formData: {}
