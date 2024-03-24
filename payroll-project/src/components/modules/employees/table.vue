@@ -18,10 +18,14 @@ export default {
       columns: [
         { label: 'ID', field: 'id', name: 'id', align: 'left' },
         { label: 'Name', field: 'name', name: 'name', align: 'left' },
-        { label: 'Middle Name', field: 'middle_name', name: 'name', align: 'left' },
-        { label: 'Last Name', field: 'last_name', name: 'name', align: 'left' },
+        { label: 'Middle Name', field: 'middle_name', name: ' middle name', align: 'left' },
+        { label: 'Last Name', field: 'last_name', name: 'last name', align: 'left' },
         { label: 'Contact', field: 'contact', name: 'contact', align: 'left' },
         { label: 'Email', field: 'email', name: 'email', align: 'left' },
+        { label: 'Designation Id', field: 'designation_id', name: 'designation id', align: 'left' },
+        { label: 'DOB', field: 'date_of_birth', name: 'date of birth', align: 'left' },
+        { label: 'Adhar Number', field: 'adhar_number', name: 'adhar number', align: 'left' },
+        { label: 'Address', field: 'address', name: 'address', align: 'left' },
 
         { label: 'Action', field: '', name: 'actionControl' },
       ]

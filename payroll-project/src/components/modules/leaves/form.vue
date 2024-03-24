@@ -8,9 +8,9 @@
            
                 
                 <q-input outlined label="Employee Id" v-model="formData.employee_id"/>
-       
-                <q-input outlined label="Designation Id" v-model="formData.Designation_Id"/>
-                <q-input outlined label="Apply Date" v-model="formData.apply_data"/>
+                <q-input outlined label="Leave Type Id" v-model="formData.leave_type_Id"/>
+                <q-input outlined label="Department Id" v-model="formData.department_Id"/>
+                <q-input outlined label="Apply Date" v-model="formData.apply_data" type="date"/>
                 
                 <q-select outlined label="Status" emit-value
         :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"

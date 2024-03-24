@@ -28,8 +28,8 @@ export default {
     async fetchDesignations () {
       let httpClient = await this.$api.get('/items/designations')
       this.rows = httpClient.data.data
-    }
-  },
+    },
+  
   async deleteData (id) {
       this.$q.dialog({
         title: 'Deleting Data',
@@ -40,7 +40,8 @@ export default {
         let httpClient = await this.$api.delete('/items/designations/' + id)
         this.fetchData()
       })
-    },
+    }
+  },
     created () {
     this.$mitt.on('module-data-changed:designations', this.fetchData)
     this.fetchDesignations()
