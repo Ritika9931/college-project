@@ -8,7 +8,7 @@ const routes = [
       { path: '', component: () => import('pages/IndexPage.vue') },
 
       {
-        path: 'employee/:mode?',
+        path: 'employee/:mode?/:id?',
         component: () => import('pages/EmployeePage.vue'),
         props: true,
         children: [
