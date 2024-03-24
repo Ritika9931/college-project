@@ -1,59 +1,58 @@
 <template>
-  <q-form ref="form" class="q-gutter-md" :class="{'bg-amber' :mode==='edit'}">
+  <q-form ref="form" class="q-gutter-md" :class="{ 'bg-amber': mode === 'edit' }">
     <div class="column">
       <div class="text-h6">Employee details</div>
 
       <div class="column q-gutter-sm">
-  
-        <q-input outlined label="First Name" v-model="formData.name" :disable="mode==='edit'" />
-      
+
+        <q-input outlined label="First Name" v-model="formData.name" :disable="mode === 'edit'" />
+
         <q-input outlined label="Middle Name" v-model="formData.Middle_name" />
-      
+
         <q-input outlined label="Last Name" v-model="formData.last_Name" />
 
         <q-input outlined label="Gender" v-model="formData.Gender" />
-   
+
         <q-input outlined label="contact" v-model="formData.contact" />
-     
+
         <q-input outlined label="Email" v-model="formData.email" />
 
-      <q-input outlined label="State" v-model="formData.state" />
+        <q-input outlined label="State" v-model="formData.state" />
 
-      <q-input outlined label="Date Of Birth" v-model="formData.date_of_birth" type="date" />
+        <q-input outlined label="Date Of Birth" v-model="formData.date_of_birth" type="date" />
 
-      <q-input outlined label="Address" v-model="formData.Address" type="textarea"/>
-    
-    <q-input outlined label="Adhar Number" v-model="formData.adhar_number" />
-   
-      <q-select outlined label="Designation" :options="designation.options" option-value="id" use-input
-        :option-label="option => `${option.name} (${option.department_id.name})`" map-options emit-value 
-        v-model="formData.designation_id" @filter="filterDesignations">
-        <template v-slot:option="props">
-          <q-item clickable v-bind="props.itemProps">
-            <div class="column">
-              <div><span class="text-bold">Designation : </span>{{ props.opt.name }}</div>
-              <div><span class="text-bold">Department : </span>{{ props.opt.department_id.name }}</div>
-            </div>
+        <q-input outlined label="Address" v-model="formData.Address" type="textarea" />
 
-          </q-item>
-        </template>
+        <q-input outlined label="Adhar Number" v-model="formData.adhar_number" />
 
-      </q-select>
-    
-    </div>
-     
+        <q-select outlined label="Designation" :options="designation.options" option-value="id" use-input
+          :option-label="option => `${option.name} (${option.department_id.name})`" map-options emit-value
+          v-model="formData.designation_id" @filter="filterDesignations">
+          <template v-slot:option="props">
+            <q-item clickable v-bind="props.itemProps">
+              <div class="column">
+                <div><span class="text-bold">Designation : </span>{{ props.opt.name }}</div>
+                <div><span class="text-bold">Department : </span>{{ props.opt.department_id.name }}</div>
+              </div>
 
-  
-    <q-select outlined label="Status" v-model="formData.status" emit-value 
-    :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"
-    :loading="status.loading" :error-message="status.error"
-      :error="!!status.error"></q-select>
+            </q-item>
+          </template>
+
+        </q-select>
+
       </div>
-      <div ref="div" class="row q-gutter-sm">
-    <q-btn class="q-my-lg" label="Submit" color="primary" @click="submit" />
-    <q-btn label="Update" color="amber" unelevated @click="updateForm" :loading="formSubmitting"
+
+
+
+      <q-select outlined label="Status" v-model="formData.status" emit-value
+        :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"
+        :loading="status.loading" :error-message="status.error" :error="!!status.error"></q-select>
+    </div>
+    <div ref="div" class="row q-gutter-sm">
+      <q-btn class="q-my-lg" label="Submit" color="primary" @click="submit" v-if="mode === 'add'" />
+      <q-btn label="Update" color="amber" unelevated @click="updateForm" :loading="formSubmitting"
         :disable="formSubmitting" v-if="mode === 'edit'"></q-btn>
-    <q-btn class="q-my-lg" label="Cancel" color="negative" @click="$router.go(-1)" />
+      <q-btn class="q-my-lg" label="Cancel" color="negative" @click="$router.go(-1)" />
     </div>
   </q-form>
 </template>
@@ -64,7 +63,7 @@ export default {
   props: ['mode', 'id'],
   data () {
     return {
-       
+
       formData: {},
       designation: {
 
@@ -72,7 +71,7 @@ export default {
         option: [],
         loading: false,
         error: false
-        
+
       },
       status: {
         loading: false,
