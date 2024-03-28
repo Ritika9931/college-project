@@ -1,6 +1,6 @@
 <template>
-  <q-form>
-    <div class="row">
+  <q-form ref="form" class="q-gutter-md" :class="{'bg-amber':mode === 'edit'}">
+    <div class="column">
       <div class="text-h6 q-my-md">Designation Form</div>
     </div>
     <div class="column q-gutter-sm">
@@ -11,16 +11,19 @@
         :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"
         v-model="formData.status"></q-select>
     </div>
-
-    <q-btn class="q-my-lg" label="Submit" color="primary" @click="submit" />
+    <div ref="div" class="row q-gutter-sm">
+    <q-btn class="q-my-lg" label="Submit" color="primary" @click="submit" v-if="mode ==='add'" />
+    <q-btn label="Update" color="amber"unelevated @click="updateform" :loading="formSubmitting"
+    :disable="formSubmitting" v-if="mode ==='edit'"></q-btn>
     <q-btn class="q-my-lg" label="Cancel" color="negative" @click="$router.go(-1)" />
-
+  </div>
   </q-form>
 </template>
 <script>
 import { useQuasar } from 'quasar'
 export default {
   name: 'DesignationForm',
+  props:['mode','id'],
   data () {
     return {
       formData: {},
@@ -58,17 +61,16 @@ export default {
 
     },
     async submit () {
-      let httpClient = await this.$api.post('http://localhost:8055/items/designations', this.formData)
+      let httpClient = await this.$api.post('/items/designations', this.formData)
 
       this.$q.dialog({
         title: 'Successfull',
         message: 'Data Submitted'
       }).onOk(() => {
+        this.$mitt.emit('module-data-changed:designations')
         this.$router.go(-1)
       }).onCancel(() => {
         // console.log('Cancel')
-      }).onDismiss(() => {
-        this.$router.go(-1)
       })
 
     }

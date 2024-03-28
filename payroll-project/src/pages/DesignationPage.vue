@@ -6,7 +6,7 @@
         </div>
         <div class="row q-gutter-md q-my-md">
             <q-card v-if="mode" class="q-pa-md" style="width:360px">
-          <router-view/> 
+          <router-view v-bind="{mode,id}"/> 
         </q-card>
         <!-- <q-table /> -->
         <DesignationTable class="col"/>

@@ -7,13 +7,13 @@
 
         <q-input outlined label="First Name" v-model="formData.name" :disable="mode === 'edit'" />
 
-        <q-input outlined label="Middle Name" v-model="formData.Middle_name" />
+        <q-input outlined label="Middle Name" v-model="formData.middle_name" />
 
-        <q-input outlined label="Last Name" v-model="formData.last_Name" />
+        <q-input outlined label="Last Name" v-model="formData.last_name" />
 
-        <q-input outlined label="Gender" v-model="formData.Gender" />
+        <q-input outlined label="Gender" v-model="formData.gender" />
 
-        <q-input outlined label="contact" v-model="formData.contact" />
+        <q-input outlined label="Contact" v-model="formData.contact" />
 
         <q-input outlined label="Email" v-model="formData.email" />
 
@@ -21,10 +21,10 @@
 
         <q-input outlined label="Date Of Birth" v-model="formData.date_of_birth" type="date" />
 
-        <q-input outlined label="Address" v-model="formData.Address" type="textarea" />
+        <q-input outlined label="Address" v-model="formData.address" type="textarea" />
 
         <q-input outlined label="Adhar Number" v-model="formData.adhar_number" />
-
+  
         <q-select outlined label="Designation" :options="designation.options" option-value="id" use-input
           :option-label="option => `${option.name} (${option.department_id.name})`" map-options emit-value
           v-model="formData.designation_id" @filter="filterDesignations">
@@ -43,11 +43,11 @@
       </div>
 
 
-
       <q-select outlined label="Status" v-model="formData.status" emit-value
         :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"
         :loading="status.loading" :error-message="status.error" :error="!!status.error"></q-select>
     </div>
+  
     <div ref="div" class="row q-gutter-sm">
       <q-btn class="q-my-lg" label="Submit" color="primary" @click="submit" v-if="mode === 'add'" />
       <q-btn label="Update" color="amber" unelevated @click="updateForm" :loading="formSubmitting"
@@ -135,11 +135,10 @@ export default {
         title: 'Successfull',
         message: 'Data Submitted'
       }).onOk(() => {
+        this.$mitt.emit('module-data-changed:employees')
         this.$router.go(-1)
       }).onCancel(() => {
         // console.log('Cancel')
-      }).onDismiss(() => {
-        this.$router.go(-1)
       })
 
     }

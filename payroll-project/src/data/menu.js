@@ -3,7 +3,7 @@ let menu = [
   { label: 'Designations', url: '/designation/', icon: 'person' },
   { label: 'Employees', url: '/employee/', icon: 'person' },
   { label: 'Leavetypes', url: '/leavetype/', icon: 'people' },
-  { label: 'Leaves', url: '/leave', icon: 'person' },
+  { label: 'Leaves', url: '/leave/', icon: 'person' },
   { label: 'Attendence', url: '/attendence', icon: 'summarize' },
   { label: 'Salary', url: '/salary', icon: 'paid' }
 

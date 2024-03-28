@@ -16,7 +16,7 @@ const routes = [
         ]
       },
       {
-        path: 'designation/:mode?',
+        path: 'designation/:mode?/:id?',
         component: () => import('pages/DesignationPage.vue'),
         props: true,
         children: [
@@ -24,7 +24,7 @@ const routes = [
         ]
       },
       {
-        path: 'department/:mode?',
+        path: 'department/:mode?/:id?',
         component: () => import('pages/DepartmentPage.vue'),
         props: true,
         children: [
@@ -32,7 +32,7 @@ const routes = [
         ]
       },
       {
-        path: 'leave/:mode?',
+        path: 'leave/:mode?/:id?',
         component: () => import('pages/LeavePage.vue'),
         props: true,
         children: [
@@ -40,7 +40,7 @@ const routes = [
         ]
       },
       {
-        path: 'leavetype/:mode?',
+        path: 'leavetype/:mode?/:id?',
         component: () => import('pages/LeaveTypePage.vue'),
         props: true,
         children: [

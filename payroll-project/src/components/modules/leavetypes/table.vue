@@ -17,6 +17,7 @@ export default {
       rows: [],
       columns: [
         { label: 'ID', field: 'id', name: 'id', align: 'left' },
+        { label: 'Status', field: 'status', name: 'status', align: 'left' },
         { label: 'Cause', field: 'cause', name: 'cause', align: 'left' },
         { label: 'Type', field: 'type', name: ' type ', align: 'left' },
         { label: 'From', field: 'from', name: 'from', align: 'left' },

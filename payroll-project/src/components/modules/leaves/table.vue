@@ -17,6 +17,7 @@ export default {
       rows: [],
       columns: [
         { label: 'ID', field: 'id', name: 'id', align: 'left' },
+        { label: 'Status', field: 'status', name: 'status', align: 'left' },
         { label: 'Employee Id', field: 'employee_id', name: 'employee id', align: 'left' },
         { label: 'Leave Type Id', field: 'leave_type_id', name: 'leave type id', align: 'left' },
         { label: 'Department Id', field: 'department_id', name: 'department id', align: 'left' },
@@ -41,14 +42,14 @@ export default {
         persistent: true
       }).onOk(async () => {
         let httpClient = await this.$api.delete('/items/leaves/' + id)
-        this.fetchData()
+        this.fetchLeaves()
       })
     
     }
   },
   
   created () {
-    this.$mitt.on('module-data-changed:leaves', this.fetchData)
+    this.$mitt.on('module-data-changed:leaves', this.fetchLeaves)
     this.fetchLeaves()
   }
 }

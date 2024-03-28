@@ -17,6 +17,7 @@ export default {
       
       columns: [
         { label: 'ID', field: 'id', name: 'id', align: 'left' },
+        { label: 'Status', field: 'status', name: 'status', align: 'left' },
         { label: 'Designation Name', field: 'name', name: 'name', align: 'left' },
         { label: 'Department_Id', field: 'department_id', name: 'department_id', align: 'left' },
         { label: 'Action', field: '', name: 'actionControl' },
@@ -38,12 +39,12 @@ export default {
         persistent: true
       }).onOk(async () => {
         let httpClient = await this.$api.delete('/items/designations/' + id)
-        this.fetchData()
+        this.fetchDesignations()
       })
     }
   },
     created () {
-    this.$mitt.on('module-data-changed:designations', this.fetchData)
+    this.$mitt.on('module-data-changed:designations', this.fetchDesignation)
     this.fetchDesignations()
   }
 
