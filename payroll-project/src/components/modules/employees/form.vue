@@ -5,7 +5,7 @@
 
       <div class="column q-gutter-sm">
 
-        <q-input outlined label="First Name" v-model="formData.name" :disable="mode === 'edit'" />
+        <q-input outlined label="First Name" v-model="formData.name" />
 
         <q-input outlined label="Middle Name" v-model="formData.middle_name" />
 
@@ -15,7 +15,8 @@
 
         <q-input outlined label="Contact" v-model="formData.contact" />
 
-        <q-input outlined label="Email" v-model="formData.email" />
+        <q-input outlined label="Email" v-model="formData.email"
+        :rules="[val => !!val || 'Mandatory Field']" :disable="mode === 'edit'" />
 
         <q-input outlined label="State" v-model="formData.state" />
 
@@ -49,7 +50,7 @@
     </div>
   
     <div ref="div" class="row q-gutter-sm">
-      <q-btn class="q-my-lg" label="Submit" color="primary" @click="submit" v-if="mode === 'add'" />
+      <q-btn class="q-my-lg" label="Submit" color="primary" @click="submitForm" v-if="mode === 'add'" />
       <q-btn label="Update" color="amber" unelevated @click="updateForm" :loading="formSubmitting"
         :disable="formSubmitting" v-if="mode === 'edit'"></q-btn>
       <q-btn class="q-my-lg" label="Cancel" color="negative" @click="$router.go(-1)" />
@@ -128,24 +129,70 @@ export default {
 
 
     },
-    async submit () {
+    async submitForm () {
+      let valid = await this.$refs.form.validate()
+      if (!valid){ 
+        return
+      }
+      this.formSubmitting = true
+      try{
+        
       let httpClient = await this.$api.post('/items/employees', this.formData)
-
-      this.$q.dialog({
-        title: 'Successfull',
-        message: 'Data Submitted'
-      }).onOk(() => {
-        this.$mitt.emit('module-data-changed:employees')
+      this.formSubmitting = false
+      this.formData = {}
+      this.$mitt.emit('module-data-changed:employees')
         this.$router.go(-1)
-      }).onCancel(() => {
-        // console.log('Cancel')
-      })
-
+        this.$q.dialog({
+          title: 'Successfull',
+        message: 'Data Submitted'
+        })
+        this.$ref.email_input.$el.focus()
+        
+      } catch (err) {
+        this.formSubmitting = false
+        this.$q.dialog({
+          message: 'Form Submission failed'
+        })
+      }    
+    
+    },
+    async updateForm (){
+      let valid = await this.$refs.form.validate()
+      if (!valid){ 
+        return
     }
+    this.formSubmitting = true
+    try{
+      let httpClient = await this.$api.patch('items/employees/' + this.formData.id, this.formData)
+      this.formSubmitting = falsethis.formData = {}
+      this.$mitt.emit('module-data-changed:employees')
+      this.$q.dialog({
+        message:'Data Update Successfully'
+      })
+      
+      this.$ref.email_input.$el.focus()
+    } catch (err){
+      this.formSubmitting =false
+      this.$q.dialog({
+        message: 'Data Updation Failed'
+      })
+    }
+  },
+  async fetchData () {
+    let httpClient = await this.$api.get('items/employees/'+this.id)
+    this.formData = httpClient.data.data
+  }
+
   },
   created () {
     this.fetchDesignations()
+    if (this.mode === 'edit') {
+      this.fetchData()
+    }
+
+
   }
+  
 
 
 }
