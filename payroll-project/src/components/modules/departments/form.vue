@@ -4,14 +4,15 @@
       <div class="text-h6">Department Form</div>
     </div>
     <div class="column q-gutter-sm">
-    <q-input outlined label="Department Name" v-model="formData.name"></q-input>
+    <q-input outlined label="Department Name" v-model="formData.name"
+    :rules="[val => !!val || 'Mandatory Field']":disable="mode === 'edit'"></q-input>
     <q-select outlined label="Status" v-model="formData.status" emit-value 
     :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]" 
     :loading="status.loading" :error-message="status.error" :error="!!status.error"
     ></q-select>
     </div>
     <div ref="div" class="row-q-gutter-sm">
-    <q-btn class="q-my-lg" label="Submit" color="primary" @click="submit" v-if="mode==='add'"/>
+    <q-btn class="q-my-lg" label="Submit" color="primary" @click="submitForm" v-if="mode==='add'"/>
     <q-btn label="update" color="amber"unelevated @click="updatedForm" :loading="formSubmitting"
      :disable="formSubmitting" v-if="mode === 'edit'"></q-btn>
     <q-btn class="q-my-lg" label="Cancel" color="negative" @click="$router.go(-1)" />
@@ -38,20 +39,62 @@ export default {
     }
   },
   methods: {
-    async submit () {
-      let httpClient = await this.$api.post('/items/departments', this.formData)
-
-      this.$q.dialog({
-        title: 'Successfull',
-        message: 'Data Submitted'
-      }).onOk(() => {
+    async submitForm () { 
+      let valid =await this.$refs.form.validate()
+      if(!valid){
+        return
+      }
+      this.formSubmitting = true
+      try{
+        let httpClient = await this.$api.post('/items/departments', this.formData)
+        this.formSubmitting = false
+        this.formData = {}
         this.$mitt.emit('module-data-changed:departments')
         this.$router.go(-1)
-      }).onCancel(() => {
-        // console.log('Cancel')
+        this.$q.dialog({
+        title: 'Successfull',
+      
+        
+        
+   
       })
-
+      this.$ref.name_input.$el.focus()
+    } catch (err) {
+        this.formSubmitting = false
+        this.$q.dialog({
+          message: 'Form Submission failed'
+        })
+      } 
+      },
+      async updateForm (){
+      let valid = await this.$refs.form.validate()
+      if (!valid){ 
+        return
+    }
+    this.formSubmitting = true
+    try{
+      let httpClient = await this.$api.patch('items/departments/' + this.formData.id, this.formData)
+      this.formSubmitting = false
+      this.formData = {}
+      this.$mitt.emit('module-data-changed:departments')
+      this.$q.dialog({
+        message:'Data Update Successfully'
+      })
+      
+      this.$ref.email_input.$el.focus()
+    } catch (err){
+      this.formSubmitting =false
+      this.$q.dialog({
+        message: 'Data Updation Failed'
+      })
+    }
+  },
+  created () {
+    if (this.mode === 'edit') {
+      this.fetchData()
     }
   }
 }
+   
+  }
 </script>
