@@ -4,7 +4,7 @@
       <div class="text-h6">Department Form</div>
     </div>
     <div class="column q-gutter-sm">
-    <q-input outlined label="Department Name" v-model="formData.name"
+    <q-input ref="name_input" outlined label="Department Name" v-model="formData.name"
     :rules="[val => !!val || 'Mandatory Field']":disable="mode === 'edit'"></q-input>
     <q-select outlined label="Status" v-model="formData.status" emit-value 
     :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]" 
@@ -13,7 +13,7 @@
     </div>
     <div ref="div" class="row-q-gutter-sm">
     <q-btn class="q-my-lg" label="Submit" color="primary" @click="submitForm" v-if="mode==='add'"/>
-    <q-btn label="update" color="amber"unelevated @click="updatedForm" :loading="formSubmitting"
+    <q-btn label="update" color="amber"unelevated @click="updateForm" :loading="formSubmitting"
      :disable="formSubmitting" v-if="mode === 'edit'"></q-btn>
     <q-btn class="q-my-lg" label="Cancel" color="negative" @click="$router.go(-1)" />
   </div>
@@ -89,6 +89,11 @@ export default {
       })
     }
   },
+  async fetchData () {
+    let httpClient = await this.$api.get('items/departments/'+this.id)
+    this.formData = httpClient.data.data
+  }
+},
   created () {
     if (this.mode === 'edit') {
       this.fetchData()
@@ -96,5 +101,5 @@ export default {
   }
 }
    
-  }
+  
 </script>

@@ -4,7 +4,8 @@
       <div class="text-h6 q-my-md">Designation Form</div>
     </div>
     <div class="column q-gutter-sm">
-      <q-input outlined label="Designation Name" v-model="formData.name" />
+      <q-input ref="name_input" outlined label="Designation Name" v-model="formData.name"
+      :rules="[val => !!val || 'Mandatory Field']":disable="mode === 'edit'"></q-input> 
       <q-select outlined label="Department" :options="department.options" option-value="id" option-label="name"
         map-options emit-value v-model="formData.department_id"></q-select>
       <q-select outlined label="Status" emit-value
@@ -12,9 +13,9 @@
         v-model="formData.status"></q-select>
     </div>
     <div ref="div" class="row q-gutter-sm">
-    <q-btn class="q-my-lg" label="Submit" color="primary" @click="submit" v-if="mode ==='add'" />
-    <q-btn label="Update" color="amber"unelevated @click="updateform" :loading="formSubmitting"
-    :disable="formSubmitting" v-if="mode ==='edit'"></q-btn>
+    <q-btn class="q-my-lg" label="Submit" color="primary" @click="submitForm" v-if="mode ==='add'" />
+    <q-btn label="update" color="amber"unelevated @click="updateForm" :loading="formSubmitting"
+     :disable="formSubmitting" v-if="mode === 'edit'"></q-btn>
     <q-btn class="q-my-lg" label="Cancel" color="negative" @click="$router.go(-1)" />
   </div>
   </q-form>
@@ -31,6 +32,12 @@ export default {
         option: [],
         loading: false,
         error: false
+      },
+      status: {
+        loading: false,
+        error: false,
+        options: [],
+        loadingAttempt: 0
       }
     }
   },
@@ -60,23 +67,70 @@ export default {
 
 
     },
-    async submit () {
+  
+  
+    async submitForm () {
+      let valid = await this.$refs.form.validate()
+      if (!valid){ 
+        return
+      }
+      this.formSubmitting = true
+      try{
+        
       let httpClient = await this.$api.post('/items/designations', this.formData)
-
-      this.$q.dialog({
-        title: 'Successfull',
-        message: 'Data Submitted'
-      }).onOk(() => {
-        this.$mitt.emit('module-data-changed:designations')
+      this.formSubmitting = false
+      this.formData = {}
+      this.$mitt.emit('module-data-changed:designations')
         this.$router.go(-1)
-      }).onCancel(() => {
-        // console.log('Cancel')
-      })
-
+        this.$q.dialog({
+          title: 'Successfull',
+        message: 'Data Submitted'
+        })
+        this.$ref.name_input.$el.focus()
+        
+      } catch (err) {
+        this.formSubmitting = false
+        this.$q.dialog({
+          message: 'Form Submission failed'
+        })
+      }    
+    
+    },
+    async updateForm (){
+      let valid = await this.$refs.form.validate()
+      if (!valid){ 
+        return
     }
+    this.formSubmitting = true
+    try{
+      let httpClient = await this.$api.patch('items/designations/' + this.formData.id, this.formData)
+      this.formSubmitting = false
+      this.formData = {}
+      this.$mitt.emit('module-data-changed:designations')
+      this.$q.dialog({
+        message:'Data Update Successfully'
+      })
+      
+      this.$ref.name_input.$el.focus()
+    } catch (err){
+      this.formSubmitting =false
+      this.$q.dialog({
+        message: 'Data Updation Failed'
+      })
+    }
+  },
+  async fetchData () {
+    let httpClient = await this.$api.get('items/designtions/'+this.id)
+    this.formData = httpClient.data.data
+  }
+
   },
   created () {
     this.fetchDepartments()
+    if (this.mode === 'edit') {
+      this.fetchData()
+    }
+
   }
 }
 </script>

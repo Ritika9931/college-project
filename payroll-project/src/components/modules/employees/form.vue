@@ -5,7 +5,7 @@
 
       <div class="column q-gutter-sm">
 
-        <q-input outlined label="First Name" v-model="formData.name" />
+        <q-input ref="name_input" outlined label="First Name" v-model="formData.name" />
 
         <q-input outlined label="Middle Name" v-model="formData.middle_name" />
 
@@ -146,7 +146,7 @@ export default {
           title: 'Successfull',
         message: 'Data Submitted'
         })
-        this.$ref.email_input.$el.focus()
+        this.$ref.name_input.$el.focus()
         
       } catch (err) {
         this.formSubmitting = false
@@ -164,13 +164,14 @@ export default {
     this.formSubmitting = true
     try{
       let httpClient = await this.$api.patch('items/employees/' + this.formData.id, this.formData)
-      this.formSubmitting = falsethis.formData = {}
+      this.formSubmitting = false
+      this.formData = {}
       this.$mitt.emit('module-data-changed:employees')
       this.$q.dialog({
         message:'Data Update Successfully'
       })
       
-      this.$ref.email_input.$el.focus()
+      this.$ref.name_input.$el.focus()
     } catch (err){
       this.formSubmitting =false
       this.$q.dialog({
