@@ -14,7 +14,7 @@ export default {
   data () {
     return {
       rows: [],
-      
+
       columns: [
         { label: 'ID', field: 'id', name: 'id', align: 'left' },
         { label: 'Status', field: 'status', name: 'status', align: 'left' },
@@ -23,15 +23,15 @@ export default {
         { label: 'Action', field: '', name: 'actionControl' },
       ]
     }
-    },
-  
+  },
+
   methods: {
     async fetchDesignations () {
       let httpClient = await this.$api.get('/items/designations')
       this.rows = httpClient.data.data
     },
-  
-  async deleteData (id) {
+
+    async deleteData (id) {
       this.$q.dialog({
         title: 'Deleting Data',
         message: 'Are you sure?',
@@ -43,8 +43,8 @@ export default {
       })
     }
   },
-    created () {
-    this.$mitt.on('module-data-changed:designations', this.fetchDesignation)
+  created () {
+    this.$mitt.on('module-data-changed:designations', this.fetchDesignations)
     this.fetchDesignations()
   }
 

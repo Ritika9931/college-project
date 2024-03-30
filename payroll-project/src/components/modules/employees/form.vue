@@ -15,8 +15,8 @@
 
         <q-input outlined label="Contact" v-model="formData.contact" />
 
-        <q-input outlined label="Email" v-model="formData.email"
-        :rules="[val => !!val || 'Mandatory Field']" :disable="mode === 'edit'" />
+        <q-input outlined label="Email" v-model="formData.email" :rules="[val => !!val || 'Mandatory Field']"
+          :disable="mode === 'edit'" />
 
         <q-input outlined label="State" v-model="formData.state" />
 
@@ -25,15 +25,15 @@
         <q-input outlined label="Address" v-model="formData.address" type="textarea" />
 
         <q-input outlined label="Adhar Number" v-model="formData.adhar_number" />
-  
-        <q-select outlined label="Designation" :options="designation.options" option-value="id" use-input
-          :option-label="option => `${option.name} (${option.department_id.name})`" map-options emit-value
+
+        <q-select outlined label="Designation" :options="designation?.options" option-value="id" use-input
+          :option-label="option => `${option.name} (${option.department_id?.name})`" map-options emit-value
           v-model="formData.designation_id" @filter="filterDesignations">
           <template v-slot:option="props">
             <q-item clickable v-bind="props.itemProps">
               <div class="column">
-                <div><span class="text-bold">Designation : </span>{{ props.opt.name }}</div>
-                <div><span class="text-bold">Department : </span>{{ props.opt.department_id.name }}</div>
+                <div><span class="text-bold">Designation : </span>{{ props?.opt?.name }}</div>
+                <div><span class="text-bold">Department : </span>{{ props?.opt?.department_id?.name }}</div>
               </div>
 
             </q-item>
@@ -48,7 +48,7 @@
         :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"
         :loading="status.loading" :error-message="status.error" :error="!!status.error"></q-select>
     </div>
-  
+
     <div ref="div" class="row q-gutter-sm">
       <q-btn class="q-my-lg" label="Submit" color="primary" @click="submitForm" v-if="mode === 'add'" />
       <q-btn label="Update" color="amber" unelevated @click="updateForm" :loading="formSubmitting"
@@ -69,7 +69,7 @@ export default {
       designation: {
 
         searchText: '',
-        option: [],
+        options: [],
         loading: false,
         error: false
 
@@ -131,58 +131,68 @@ export default {
     },
     async submitForm () {
       let valid = await this.$refs.form.validate()
-      if (!valid){ 
+      if (!valid) {
         return
       }
       this.formSubmitting = true
-      try{
-        
-      let httpClient = await this.$api.post('/items/employees', this.formData)
-      this.formSubmitting = false
-      this.formData = {}
-      this.$mitt.emit('module-data-changed:employees')
-        this.$router.go(-1)
+      try {
+
+        let httpClient = await this.$api.post('/items/employees', this.formData)
+        this.formSubmitting = false
+        this.formData = {}
+        this.$mitt.emit('module-data-changed:employees')
         this.$q.dialog({
           title: 'Successfull',
-        message: 'Data Submitted'
+          message: 'Data Submitted'
+        }).onOk(() => {
+          this.$router.go(-1)
+          // console.log(this.$refs)
+          // this.$nextTick(
+          //   () => {
+          //     this.$refs.name_input.$el.focus()
+          //   }
+          // )
+
         })
-        this.$ref.name_input.$el.focus()
-        
+
+
+
+
       } catch (err) {
         this.formSubmitting = false
         this.$q.dialog({
           message: 'Form Submission failed'
         })
-      }    
-    
+      }
+
     },
-    async updateForm (){
+    async updateForm () {
       let valid = await this.$refs.form.validate()
-      if (!valid){ 
+      if (!valid) {
         return
+      }
+      this.formSubmitting = true
+      try {
+        let httpClient = await this.$api.patch('items/employees/' + this.formData.id, this.formData)
+        this.formSubmitting = false
+        this.formData = {}
+        this.$mitt.emit('module-data-changed:employees')
+        this.$q.dialog({
+          message: 'Data Update Successfully'
+        })
+
+        this.$refs.name_input.$el.focus()
+      } catch (err) {
+        this.formSubmitting = false
+        this.$q.dialog({
+          message: 'Data Updation Failed'
+        })
+      }
+    },
+    async fetchData () {
+      let httpClient = await this.$api.get('items/employees/' + this.id)
+      this.formData = httpClient.data.data
     }
-    this.formSubmitting = true
-    try{
-      let httpClient = await this.$api.patch('items/employees/' + this.formData.id, this.formData)
-      this.formSubmitting = false
-      this.formData = {}
-      this.$mitt.emit('module-data-changed:employees')
-      this.$q.dialog({
-        message:'Data Update Successfully'
-      })
-      
-      this.$ref.name_input.$el.focus()
-    } catch (err){
-      this.formSubmitting =false
-      this.$q.dialog({
-        message: 'Data Updation Failed'
-      })
-    }
-  },
-  async fetchData () {
-    let httpClient = await this.$api.get('items/employees/'+this.id)
-    this.formData = httpClient.data.data
-  }
 
   },
   created () {
@@ -193,7 +203,7 @@ export default {
 
 
   }
-  
+
 
 
 }
