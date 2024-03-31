@@ -85,8 +85,10 @@ export default {
         this.$q.dialog({
           title: 'Successfull',
           message: 'Data Submitted'
+        }).onOk(() => {
+          this.$router.go(-1)
         })
-        this.$refs.name_input.$el.focus()
+       
 
       } catch (err) {
         console.log(err)

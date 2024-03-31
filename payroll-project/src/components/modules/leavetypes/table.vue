@@ -46,7 +46,7 @@ export default {
     }
   },
   created () {
-    this.$mitt.on('module-data-changed:leavetypes', this.fetchLeaveTypes)
+    this.$mitt.on('module-data-changed:leave_types', this.fetchLeaveTypes)
     this.fetchLeaveTypes()
   }
 }

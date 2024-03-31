@@ -20,7 +20,7 @@
 <script>
 import LeaveTypeTable from 'components/modules/leavetypes/table.vue'
 export default {
-props: ['mode'],
+props: ['mode','id'],
     components: {LeaveTypeTable,}
 
 }

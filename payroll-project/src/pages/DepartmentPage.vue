@@ -21,7 +21,7 @@
 import DepartmentTable from 'components/modules/departments/table.vue'
 
 export default {
-    props: ['mode'],
+    props: ['mode','id'],
     components: { DepartmentTable, }
 }
 

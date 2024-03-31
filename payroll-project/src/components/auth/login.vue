@@ -15,8 +15,8 @@
         <div class="full-width q-my-md column q-gutter-sm">
           <q-checkbox v-model="check" label="Remember Me"></q-checkbox>
           <div class="">
-            <q-btn :label="authSucess ? 'Success' : 'LOGIN'" class="full-width"
-              :color="authSucess ? 'green' : 'primary'" @click="login" :disabled="authInProgress || authSuccess"
+            <q-btn :label="authSuccess ? 'Success' : 'LOGIN'" class="full-width"
+              :color="authSuccess ? 'green' : 'primary'" @click="login" :disabled="authInProgress || authSuccess"
               :loading="authInProgress"></q-btn>
           </div>
         </div>

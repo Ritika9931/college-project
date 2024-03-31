@@ -7,10 +7,10 @@
         <div class="column q-gutter-sm">
            
                 
-                <q-select outlined label="Employee Id" v-model="formData.employee_id"/>
+                <q-select ref="employee_id_input" outlined label="Employee Id" v-model="formData.employee_id"/>
                 <q-select outlined label="Leave Type Id" v-model="formData.leave_type_Id"/>
                 <q-select outlined label="Department Id" v-model="formData.department_Id"/>
-                <q-input outlined label="Apply Date" v-model="formData.apply_data" type="date"/>
+                <q-input outlined label="Apply Date" v-model="formData.apply_date" type="date"/>
                 
                 <q-select outlined label="Status" emit-value
         :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"
@@ -19,9 +19,10 @@
                 </div>
             </div> 
             <div ref="div" class="row-q-gutter-sm">
-        <q-btn class="q-my-sm" label="Submit" color="primary" @click="submit" v-if="mode ==='add'" />
-        <q-btn label="Update" color="amber"unelevated @click="updatedForm" :loading="formSubmitting"
-     :disable="formSubmitting" v-if="mode === 'edit'"></q-btn>
+              <q-btn class="q-my-lg" label="Submit" color="primary" @click="submitForm" v-if="mode === 'add'" />
+      <q-btn label="Update" color="amber" unelevated @click="updateForm" :loading="formSubmitting"
+        :disable="formSubmitting" v-if="mode === 'edit'"></q-btn>
+      
         <q-btn class="q-my-sm" label="Cancel" color="negative" @click="$router.go(-1)"/> 
   
             </div>  
@@ -34,24 +35,85 @@
     props:['mode','id'],
     data () {
       return {
-        formData: {}
+        formData: {},
+        status: {
+        loading: false,
+        error: false,
+        options: [],
+        loadingAttempt: 0
+      }
       }
     },
     methods: {
-      async submit () {
-        let httpClient = await this.$api.post('/items/leaves', this.formData)
-  
+      async submitForm () {
+        let valid =await this.$refs.form.validate()
+        if (!valid){
+          return
+        }
+        this.formSubmitting = true
+        try{
+          let httpClient = await this.$api.post('/items/leaves', this.formData)
+          this.formSubmitting = false
+          this.formData = {}
+          this.$mitt.emit('module-data-changed:leaves')
+          
         this.$q.dialog({
           title: 'Successfull',
           message: 'Data Submitted'
         }).onOk(() => {
-          this.$mitt.emit('module-data-changed:leaves')
           this.$router.go(-1)
-        }).onCancel(() => {
-          // console.log('Cancel')
-        })
+
+        })      
   
+      }catch(err){
+        this.formSubmitting = false
+        this.$q.dialog({
+          message: 'Data Submission Failed'
+        })
       }
+    },
+    async updateForm () {
+      let valid = await this.$refs.form.validate()
+      if (!valid) {
+        return
+      }
+      this.formSubmitting = true
+      try {
+        let httpClient = await this.$api.patch('items/leaves/' + this.formData.id, this.formData)
+        this.formSubmitting = false
+        this.formData = {}
+        this.$mitt.emit('module-data-changed:leaves')
+        this.$q.dialog({
+          message: 'Data Update Successfully'
+        })
+
+        this.$refs.employee_id_input.$el.focus()
+      } catch (err) {
+        this.formSubmitting = false
+        this.$q.dialog({
+          message: 'Data Updation Failed'
+        })
+      }
+    },
+    async fetchData () {
+      let httpClient = await this.$api.get('items/leaves/' + this.id)
+      this.formData = httpClient.data.data
     }
+
+  },
+  created () {
+  
+    if (this.mode === 'edit') {
+      this.fetchData()
+    }
+
+
   }
-  </script>
+
+
+
+}
+</script>
+
+  
+  

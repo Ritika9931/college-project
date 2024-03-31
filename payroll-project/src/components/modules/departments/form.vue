@@ -52,13 +52,12 @@ export default {
         this.$mitt.emit('module-data-changed:departments')
         this.$router.go(-1)
         this.$q.dialog({
-        title: 'Successfull',
-      
-        
-        
+        title: 'Successfull' 
    
-      })
-      this.$ref.name_input.$el.focus()
+      }).onOk(() => {
+          this.$router.go(-1)
+        })
+  
     } catch (err) {
         this.formSubmitting = false
         this.$q.dialog({
@@ -74,6 +73,7 @@ export default {
     this.formSubmitting = true
     try{
       let httpClient = await this.$api.patch('items/departments/' + this.formData.id, this.formData)
+      console.log(1)
       this.formSubmitting = false
       this.formData = {}
       this.$mitt.emit('module-data-changed:departments')
@@ -81,7 +81,7 @@ export default {
         message:'Data Update Successfully'
       })
       
-      this.$ref.email_input.$el.focus()
+      this.$refs.name_input.$el.focus()
     } catch (err){
       this.formSubmitting =false
       this.$q.dialog({
