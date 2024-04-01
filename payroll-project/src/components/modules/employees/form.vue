@@ -115,7 +115,7 @@ export default {
       } catch (err) {
         if (this.designation.loadingAttempt <= 5) {
           // this.designation.error = 'Please wait loading options'
-          setTimeout(this.fetchSkillOptions, 1000)
+          setTimeout(this.fetchDesignations, 1000)
 
         } else {
           this.designation.error = 'Failed to load options'

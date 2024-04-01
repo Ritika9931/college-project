@@ -6,11 +6,13 @@
                 
         <div class="column q-gutter-sm">
            
-                
-                <q-select ref="employee_id_input" outlined label="Employee Id" v-model="formData.employee_id"/>
-                <q-select outlined label="Leave Type Id" v-model="formData.leave_type_Id"/>
-                <q-select outlined label="Department Id" v-model="formData.department_Id"/>
-                <q-input outlined label="Apply Date" v-model="formData.apply_date" type="date"/>
+                <q-select ref="employee_input" outlined label="Employee " :options="employee.options" options-value="id" 
+                :options-label="name" map-options emit-value v-model:model="formData.employee_id"></q-select> 
+                <q-select outlined label="Leave Type " v-model="formData.leave_type_id"/>
+                <q-select outlined label="Department ":options="department.options" options-value="id" 
+                :options-label="name" map-options emit-value v-model="formData.department_id"></q-select>
+                <q-input outlined label="Apply Date" v-model="formData.apply_date" type="date"
+                :rules="[val => !!val || 'Mandatory Field']" :disable="mode === 'edit'"></q-input>
                 
                 <q-select outlined label="Status" emit-value
         :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"
@@ -36,6 +38,18 @@
     data () {
       return {
         formData: {},
+          employee: {
+        options: [],
+        loading: false,
+        error: false
+
+      },
+      department: {
+        options: [],
+        loading: false,
+        error: false
+
+      },
         status: {
         loading: false,
         error: false,
@@ -45,6 +59,56 @@
       }
     },
     methods: {
+      async fetchEmployees(){
+        this.employee.loading = true
+        try{
+          this.employee.loadingAttempt++
+        let httpClient = await this.$api.get('/items/employees')
+        this.employee.loadingAttempt = 0
+        this.employee.error = false
+        this.employee.options = httpClient?.data?.data
+
+        }catch (err)  {  
+          if (this.employee.loadingAttempt <= 5) {
+          setTimeout(this.fetchEmployees, 1000)
+
+        } else {
+          this.employee.error = 'Failed to load options'
+
+        }
+
+        }
+        if (!!!this.employee.error || (!!this.employee.error && this.employee.loadingAttempt > 5)) {
+        this.employee.loading = false
+      }
+
+      },
+      
+      async fetchDepartments(){
+        this.department.loading = true
+        try{
+          this.department.loadingAttempt++
+        let httpClient = await this.$api.get('/items/departments')
+        this.departemnt.loadingAttempt = 0
+        this.department.error = false
+        this.department.options = httpClient?.data?.data
+
+        }catch (err)  {  
+          if (this.department.loadingAttempt <= 5) {
+          setTimeout(this.fetchDepartmens, 1000)
+
+        } else {
+          this.department.error = 'Failed to load options'
+
+        }
+
+        }
+        if (!!!this.department.error || (!!this.department.error && this.department.loadingAttempt > 5)) {
+        this.department.loading = false
+      }
+
+      },
+    
       async submitForm () {
         let valid =await this.$refs.form.validate()
         if (!valid){
@@ -87,7 +151,7 @@
           message: 'Data Update Successfully'
         })
 
-        this.$refs.employee_id_input.$el.focus()
+        this.$refs.employee_input.$el.focus()
       } catch (err) {
         this.formSubmitting = false
         this.$q.dialog({
@@ -102,7 +166,8 @@
 
   },
   created () {
-  
+    this.fetchEmployees()
+    this.fetchDepartments()
     if (this.mode === 'edit') {
       this.fetchData()
     }

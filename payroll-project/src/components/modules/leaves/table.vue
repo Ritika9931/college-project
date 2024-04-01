@@ -18,9 +18,9 @@ export default {
       columns: [
         { label: 'ID', field: 'id', name: 'id', align: 'left' },
         { label: 'Status', field: 'status', name: 'status', align: 'left' },
-        { label: 'Employee Id', field: 'employee_id', name: 'employee id', align: 'left' },
-        { label: 'Leave Type Id', field: 'leave_type_id', name: 'leave type id', align: 'left' },
-        { label: 'Department Id', field: 'department_id', name: 'department id', align: 'left' },
+        { label: 'Employee ', field: 'employee_id', name: 'employee id', align: 'left' },
+        { label: 'Leave Type ', field: 'leave_type_id', name: 'leave type id', align: 'left' },
+        { label: 'Department ', field: 'department_id', name: 'department id', align: 'left' },
         { label: 'Apply Date', field: 'apply_date', name: 'apply date', align: 'left' },
         { label: 'Action', field: '', name: 'actionControl' },
       ]

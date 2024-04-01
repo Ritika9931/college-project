@@ -6,7 +6,8 @@
         <q-select ref="type_input" outlined label="type" v-model="formData.type"></q-select>
         <q-input outlined label="Cause" v-model="formData.cause" />
         <q-input outlined label="From" v-model="formData.from" />
-        <q-date v-model="days" multiple />
+      
+         <q-date v-model="model" range />
         <q-input outlined label="To" v-model="formData.to" />
 
         <q-select outlined label="Status" emit-value
@@ -19,21 +20,24 @@
      :disable="formSubmitting" v-if="mode === 'edit'"></q-btn>
     <q-btn class="q-my-lg" label="Cancel" color="negative" @click="$router.go(-1)" />
   </q-form>
-</template>
+</template> 
 <script>
 import { useQuasar } from 'quasar';
+import { ref } from 'vue'
 export default {
   name: "Leave Type",
   props:['mode','id'],
   data () {
     return {
+      model: ref({ from: '', to: '' }),
       formData: {},
       status: {
         loading: false,
         error: false,
         options: [],
         loadingAttempt: 0
-      }
+      },
+
     }
   },
   
