@@ -1,35 +1,50 @@
 <template>
-  <q-form class="q-gutter-md" :class="{'bg-amber':mode ==='edit'}">
+  <q-form class="q-gutter-md" :class="{ 'bg-amber': mode === 'edit' }" ref="form">
     <div class="column">
       <div class="text-h6  text-black-3"> New leave</div>
       <div class="column q-gutter-sm">
         <q-select ref="type_input" outlined label="type" v-model="formData.type"></q-select>
         <q-input outlined label="Cause" v-model="formData.cause" />
-        <q-input outlined label="From" v-model="formData.from" />
-      
-         <q-date v-model="model" range />
-        <q-input outlined label="To" v-model="formData.to" />
+        <q-input type="date" outlined label="From" v-model="formData.from" :rules="[required]" />
+        <!-- <DateTime v-model="formData.to" range /> -->
+        {{ formData.to }}
+        <q-input mask="##-##-####" outlined label=" To" v-model="toDateDisplay" :rules="[required, validateTo]"
+          :disable="!formData.from">
+          <template v-slot:append>
+            <q-icon name="calendar_month">
+              <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                <q-date v-model="formData.to" mask="YYYY-MM-DD" :options="validateDay">
+                  <div class="row items-center justify-end">
+                    <q-btn v-close-popup label="Close" color="primary" flat />
+                  </div>
+                </q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
+
 
         <q-select outlined label="Status" emit-value
           :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"
           v-model="formData.status"></q-select>
       </div>
     </div>
-    <q-btn class="q-my-lg" label="Submit" color="primary" @click="submitForm" v-if="mode ==='add'" />
-    <q-btn label="Update" color="amber"unelevated @click="updateForm" :loading="formSubmitting"
-     :disable="formSubmitting" v-if="mode === 'edit'"></q-btn>
+    <q-btn class="q-my-lg" label="Submit" color="primary" @click="submitForm" v-if="mode === 'add'" />
+    <q-btn label="Update" color="amber" unelevated @click="updateForm" :loading="formSubmitting"
+      :disable="formSubmitting" v-if="mode === 'edit'"></q-btn>
     <q-btn class="q-my-lg" label="Cancel" color="negative" @click="$router.go(-1)" />
   </q-form>
-</template> 
+</template>
 <script>
-import { useQuasar } from 'quasar';
-import { ref } from 'vue'
+import moment from 'moment'
+import DateTime from 'components/commons/DateTime.vue'
 export default {
+  components: { DateTime },
   name: "Leave Type",
-  props:['mode','id'],
+  props: ['mode', 'id'],
   data () {
     return {
-      model: ref({ from: '', to: '' }),
+      date: { from: null, to: null },
       formData: {},
       status: {
         loading: false,
@@ -40,30 +55,68 @@ export default {
 
     }
   },
-  
-  methods: {
-      async submitForm () {
-        let valid = await this.$refs.form.validate()
-        console.log(sal)
-        if (!valid){
-          return
+  computed: {
+    toDateDisplay: {
+      set (value) {
+        let dateArray = value.split('-')
+        if (dateArray?.[0].length === 2 && dateArray?.[1].length === 2 && dateArray?.[2].length === 4) {
+          let dateMoment = moment(value, 'DD-MM-YYYY')
+
+          this.formData.to = dateMoment.format('YYYY-MM-DD')
         }
-        this.formSubmitting = true
-        try{
-          let httpClient = await this.$api.post('/items/leave_types', this.formData)
-          this.formSubmitting = false
-          this.formData = {}
-          this.$mitt.emit('module-data-changed:leave_types')
-          
+
+      },
+      get () {
+        let dateMoment = moment(this.formData.to)
+        return dateMoment.format('DD-MM-YYYY')
+      }
+    }
+  },
+
+  methods: {
+    validateDay (date) {
+      let from = this.formData.from
+      let to = date
+      let fromDate = moment(from)
+      let toDate = moment(to)
+      let leaveForDays = toDate.diff(fromDate, 'days') + 1
+
+      return leaveForDays > 0
+    },
+    async required (value) {
+      return !!value || 'Mandatory Field'
+    },
+    async validateTo () {
+      console.log(this.formData.to)
+      let from = this.formData.from
+      let to = this.formData.to
+      let fromDate = moment(from)
+      let toDate = moment(to)
+      let leaveForDays = toDate.diff(fromDate, 'days') + 1
+
+      return leaveForDays > 0 || 'Not Valid'
+    },
+    async submitForm () {
+      let valid = await this.$refs.form.validate()
+      if (!valid) {
+        return
+      }
+      this.formSubmitting = true
+      try {
+        let httpClient = await this.$api.post('/items/leave_types', this.formData)
+        this.formSubmitting = false
+        this.formData = {}
+        this.$mitt.emit('module-data-changed:leave_types')
+
         this.$q.dialog({
           title: 'Successfull',
           message: 'Data Submitted'
         }).onOk(() => {
           this.$router.go(-1)
 
-        })      
-  
-      }catch(err){
+        })
+
+      } catch (err) {
         this.formSubmitting = false
         this.$q.dialog({
           message: 'Data Submission Failed'
@@ -101,7 +154,6 @@ export default {
 
   },
   created () {
-    this.fetchData()
     if (this.mode === 'edit') {
       this.fetchData()
     }
