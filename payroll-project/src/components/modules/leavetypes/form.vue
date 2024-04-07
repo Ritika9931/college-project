@@ -3,7 +3,10 @@
     <div class="column">
       <div class="text-h6  text-black-3"> New leave</div>
       <div class="column q-gutter-sm">
-        <q-select ref="type_input" outlined label="type" v-model="formData.type"></q-select>
+        <q-select ref="type_input" outlined label="type" v-model="formData.type" :options="[{ label: 'Sick Leave', value: 'Sick Leave' }, 
+        { label: 'Special Leave', value: 'Special Leave' },{ label: 'Vacation Leave', value: 'Vacation Leave' },
+        { label: 'Parental Leave', value: 'Parental Leave' }, { label: 'Holiday Leave', value: 'Holiday Leave' },]" 
+       ></q-select>
         <q-input outlined label="Cause" v-model="formData.cause" />
         <q-input type="date" outlined label="From" v-model="formData.from" :rules="[required]" />
         <!-- <DateTime v-model="formData.to" range /> -->
@@ -40,7 +43,7 @@ import moment from 'moment'
 import DateTime from 'components/commons/DateTime.vue'
 export default {
   components: { DateTime },
-  name: "Leave Type",
+  name: "New Leave",
   props: ['mode', 'id'],
   data () {
     return {
@@ -52,6 +55,7 @@ export default {
         options: [],
         loadingAttempt: 0
       },
+   
 
     }
   },
@@ -96,6 +100,7 @@ export default {
 
       return leaveForDays > 0 || 'Not Valid'
     },
+    
     async submitForm () {
       let valid = await this.$refs.form.validate()
       if (!valid) {
