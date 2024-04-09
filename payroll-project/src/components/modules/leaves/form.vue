@@ -15,7 +15,7 @@
                 :rules="[val => !!val || 'Mandatory Field']" :disable="mode === 'edit'"></q-input>
                 
                 <q-select outlined label="Status" emit-value
-        :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"
+        :options="[{ label: 'Confirm', value: 'confirm' }, { label: 'Pending', value: 'pending' }]"
         v-model="formData.status"></q-select>
               
                 </div>

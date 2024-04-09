@@ -3,6 +3,8 @@
  
   <template v-slot:body-cell-actionControl="props">
       <q-td>
+        <q-btn icon="visibility" :to="'./detail/' + props.row.id" unelevated color="green" dense></q-btn>
+        console.log(1)
         <q-btn icon="edit" :to="'./edit/' + props.row.id" unelevated color="amber" dense></q-btn>
         <q-btn icon="delete" @click="deleteData(props.row.id)" unelevated color="red" dense></q-btn>
       </q-td>

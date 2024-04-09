@@ -25,6 +25,7 @@
         <q-input outlined label="Address" v-model="formData.address" type="textarea" />
 
         <q-input outlined label="Adhar Number" v-model="formData.adhar_number" />
+        <div class="column q-gutter-m">
 
         <q-select outlined label="Designation" :options="designation?.options" option-value="id" use-input
           :option-label="option => `${option.name} (${option.department_id?.name})`" map-options emit-value
@@ -47,6 +48,7 @@
       <q-select outlined label="Status" v-model="formData.status" emit-value
         :options="[{ label: 'Active', value: 'active' }, { label: 'In-Active', value: 'in_active' }]"
         :loading="status.loading" :error-message="status.error" :error="!!status.error"></q-select>
+      </div>
     </div>
 
     <div ref="div" class="row q-gutter-sm">

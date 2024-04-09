@@ -22,9 +22,10 @@
 
 <script>
 import EmployeeTable from 'components/modules/employees/table.vue'
+import EmployeeDetails from 'components/modules/employees/detail.vue'
 export default {
   props: ['mode', 'id'],
-  components: { EmployeeTable, }
+  components: { EmployeeTable,EmployeeDetails }
 
 }
 </script>
