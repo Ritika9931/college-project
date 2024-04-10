@@ -1,75 +1,76 @@
 <template>
-    <q-form ref="form" class="q-gutter-md" :class="{'bg-amber':mode ==='edit'}">
-        <div class="column">
-   
-            <div class="text-h6  text-black-3"> leave</div> 
-                
-        <div class="column q-gutter-sm">
-           
-                <q-select ref="employee_input" outlined label="Employee " :options="employee.options" options-value="id" 
-                :options-label="name" map-options emit-value v-model:model="formData.employee_id"></q-select> 
-                <q-select outlined label="Leave Type " v-model="formData.leave_type_id"/>
-                <q-select outlined label="Department ":options="department.options" options-value="id" 
-                :options-label="name" map-options emit-value v-model="formData.department_id"></q-select>
-                <q-input outlined label="Apply Date" v-model="formData.apply_date" type="date"
-                :rules="[val => !!val || 'Mandatory Field']" :disable="mode === 'edit'"></q-input>
-                
-                <q-select outlined label="Status" emit-value
-        :options="[{ label: 'Confirm', value: 'confirm' }, { label: 'Pending', value: 'pending' }]"
-        v-model="formData.status"></q-select>
-              
-                </div>
-            </div> 
-            <div ref="div" class="row-q-gutter-sm">
-              <q-btn class="q-my-lg" label="Submit" color="primary" @click="submitForm" v-if="mode === 'add'" />
+  <q-form ref="form" class="q-gutter-md" :class="{ 'bg-amber': mode === 'edit' }">
+    <div class="column">
+
+      <div class="text-h6  text-black-3"> leave</div>
+
+      <div class="column q-gutter-sm">
+        <q-select ref="employee_input" outlined label="Employee " :options="employee.options" option-value="id"
+          option-label="name" map-options emit-value v-model:model="formData.employee_id"></q-select>
+        <q-select outlined label="Leave Type " v-model="formData.leave_type_id" />
+        <q-select outlined label="Department " :options="department.options" option-value="id" option-label="name"
+          map-options emit-value v-model="formData.department_id"></q-select>
+        <q-input outlined label="Apply Date" v-model="formData.apply_date" type="date"
+          :rules="[val => !!val || 'Mandatory Field']" :disable="mode === 'edit'"></q-input>
+
+        <q-select outlined label="Status" emit-value
+          :options="[{ label: 'Confirm', value: 'confirm' }, { label: 'Pending', value: 'pending' }]"
+          v-model="formData.status"></q-select>
+
+      </div>
+    </div>
+    <div ref="div" class="row-q-gutter-sm">
+      <q-btn class="q-my-lg" label="Submit" color="primary" @click="submitForm" v-if="mode === 'add'" />
       <q-btn label="Update" color="amber" unelevated @click="updateForm" :loading="formSubmitting"
         :disable="formSubmitting" v-if="mode === 'edit'"></q-btn>
-      
-        <q-btn class="q-my-sm" label="Cancel" color="negative" @click="$router.go(-1)"/> 
-  
-            </div>  
-    </q-form>
-   </template>
-  <script>
-  import { useQuasar } from 'quasar'
-  export default {
-    name: 'Leave',
-    props:['mode','id'],
-    data () {
-      return {
-        formData: {},
-          employee: {
+
+      <q-btn class="q-my-sm" label="Cancel" color="negative" @click="$router.go(-1)" />
+
+    </div>
+  </q-form>
+</template>
+<script>
+import { useQuasar } from 'quasar'
+export default {
+  name: 'Leave',
+  props: ['mode', 'id'],
+  data () {
+    return {
+      formData: {},
+      employee: {
         options: [],
         loading: false,
-        error: false
+        error: false,
+        loadingAttempt: 0
 
       },
       department: {
         options: [],
         loading: false,
-        error: false
+        error: false,
+        loadingAttempt: 0
 
       },
-        status: {
+      status: {
         loading: false,
         error: false,
         options: [],
         loadingAttempt: 0
       }
-      }
-    },
-    methods: {
-      async fetchEmployees(){
-        this.employee.loading = true
-        try{
-          this.employee.loadingAttempt++
+    }
+  },
+  methods: {
+    async fetchEmployees () {
+      this.employee.loading = true
+      try {
+        this.employee.loadingAttempt++
         let httpClient = await this.$api.get('/items/employees')
         this.employee.loadingAttempt = 0
         this.employee.error = false
         this.employee.options = httpClient?.data?.data
 
-        }catch (err)  {  
-          if (this.employee.loadingAttempt <= 5) {
+      } catch (err) {
+        if (this.employee.loadingAttempt <= 5) {
           setTimeout(this.fetchEmployees, 1000)
 
         } else {
@@ -77,24 +78,28 @@
 
         }
 
-        }
-        if (!!!this.employee.error || (!!this.employee.error && this.employee.loadingAttempt > 5)) {
+      }
+      if (!!!this.employee.error || (!!this.employee.error && this.employee.loadingAttempt > 5)) {
         this.employee.loading = false
       }
 
-      },
-      
-      async fetchDepartments(){
-        this.department.loading = true
-        try{
-          this.department.loadingAttempt++
+    },
+
+    async fetchDepartments () {
+      this.department.loading = true
+      try {
+        this.department.loadingAttempt++
         let httpClient = await this.$api.get('/items/departments')
-        this.departemnt.loadingAttempt = 0
+
+        alert()
+        this.department.loadingAttempt = 0
+
         this.department.error = false
+
         this.department.options = httpClient?.data?.data
 
-        }catch (err)  {  
-          if (this.department.loadingAttempt <= 5) {
+      } catch (err) {
+        if (this.department.loadingAttempt <= 5) {
           setTimeout(this.fetchDepartmens, 1000)
 
         } else {
@@ -102,34 +107,34 @@
 
         }
 
-        }
-        if (!!!this.department.error || (!!this.department.error && this.department.loadingAttempt > 5)) {
+      }
+      if (!!!this.department.error || (!!this.department.error && this.department.loadingAttempt > 5)) {
         this.department.loading = false
       }
 
-      },
-    
-      async submitForm () {
-        let valid =await this.$refs.form.validate()
-        if (!valid){
-          return
-        }
-        this.formSubmitting = true
-        try{
-          let httpClient = await this.$api.post('/items/leaves', this.formData)
-          this.formSubmitting = false
-          this.formData = {}
-          this.$mitt.emit('module-data-changed:leaves')
-          
+    },
+
+    async submitForm () {
+      let valid = await this.$refs.form.validate()
+      if (!valid) {
+        return
+      }
+      this.formSubmitting = true
+      try {
+        let httpClient = await this.$api.post('/items/leaves', this.formData)
+        this.formSubmitting = false
+        this.formData = {}
+        this.$mitt.emit('module-data-changed:leaves')
+
         this.$q.dialog({
           title: 'Successfull',
           message: 'Data Submitted'
         }).onOk(() => {
           this.$router.go(-1)
 
-        })      
-  
-      }catch(err){
+        })
+
+      } catch (err) {
         this.formSubmitting = false
         this.$q.dialog({
           message: 'Data Submission Failed'
@@ -179,6 +184,3 @@
 
 }
 </script>
-
-  
-  
