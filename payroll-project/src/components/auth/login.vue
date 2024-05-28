@@ -1,6 +1,6 @@
 <template>
 
-  <div class="column items-center">
+  <div class="main-part column items-center">
 
     <q-form class="q-pa-md q-mt-md bg-indigo-2" style="width:400px">
       <q-card class="q-pa-md shadow-2" bordered>
@@ -70,3 +70,8 @@ export default {
 
 
 </script>
+<style>
+.main-part{
+background-image: url('/iskonphoto.jpg');
+}
+</style>

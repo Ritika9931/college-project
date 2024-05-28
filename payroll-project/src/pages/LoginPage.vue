@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md bg-grey-2">
+  <q-page class="home q-pa-md">
     <RouterView />
   </q-page>
 
@@ -10,3 +10,8 @@ export default {
 
 }
 </script>
+<style>
+.home{
+  background-image: url('/iskonphoto.jpg');
+}
+</style>
